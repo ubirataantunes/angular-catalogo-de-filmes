@@ -1,3 +1,10 @@
+# Meu maior desafio
+
+O maior desafio deste projeto foi fazer a interface consumir a API Rest. Até este momento estou trabalhando para concluir essa tarefa.
+
+
+
+
 # CrudAngular
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.1.0.
