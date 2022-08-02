@@ -5,7 +5,7 @@ import { Filme } from '../Models/Filmes';
 
 @Injectable()
 export class Filmes {
-    elementApiUrl = "api/Filmes"
+    elementApiUrl = "https://localhost:44384/api/Filmes"
   constructor(private http: HttpClient) { }
 
   getElements(): Observable<Filme[]> {

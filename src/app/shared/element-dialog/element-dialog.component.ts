@@ -20,7 +20,7 @@ export class ElementDialogComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if(this.data.nome != null) {
+    if(this.data.Nome != null) {
       this.isChange = true;
     } else {
       this.isChange = false;
