@@ -1,3 +1,4 @@
+import { HttpBackend, HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
     public FilmesService: Filmes
     ) {
       this.FilmesService.getElements()
-        .subscribe(data => {
+        .subscribe((data: Filme[]) => {
           this.dataSource = data;
         })
     }
@@ -34,40 +35,75 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  fetchEditElement(element: Filme): void {
+    let url: string = this.FilmesService.elementApiUrl;
+    fetch(`${url}/${element.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(element)
+    })
+  };
+
   openDialog(element: Filme | null): void {
     const dialogRef = this.dialog.open(ElementDialogComponent, {
       width: '250px',
       data: element === null ? {
-        Nome: null,
-        Ano: '',
-        Diretor: null,
-        Elenco: ''
+        nome: '',
+        ano: '',
+        diretor: '',
+        elenco: ''
       } : {
-        Nome: element.Nome,
-        Ano: element.Ano,
-        Diretor: element.Diretor,
-        Elenco: element.Elenco
+        id: element.id,
+        nome: element.nome,
+        ano: element.ano,
+        diretor: element.diretor,
+        elenco: element.elenco
       }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if (result !== undefined) {
-        if (this.dataSource.map(p => p.Nome).includes(result.Nome)){
-          this.dataSource[result.Nome -1] = result;
+        if (this.dataSource.map(p => p.id).includes(result.id)){
+          var indexOfChange = this.dataSource.map(p => p.id == result.id).indexOf(true)
+          this.dataSource[indexOfChange] = result;
+          this.fetchEditElement(result)
           this.table.renderRows();
         } else {
-          this.dataSource.push(result);
-          this.table.renderRows();
+          this.FilmesService.createElements(result)
+          .subscribe(() => {
+            this.dataSource.push(result);
+            this.table.renderRows();
+          })         
         }        
       }
     });    
   }
-
-  deleteElement(Nome: string): void {
-    this.dataSource = this.dataSource.filter(p => p.Nome !== Nome)
+  // delete deito com fetch
+  deleteElement(id: number) : void {
+    this.dataSource = this.dataSource.filter(p => p.id !== id);
+    let url: string = this.FilmesService.elementApiUrl;
+    window.fetch(`${url}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
   }
-
+// tentando fazer o PUT com fetch
   editElement(element: Filme) : void {
     this.openDialog(element)
   }
 }
+
+/*
+let url: string = this.FilmesService.elementApiUrl;
+    fetch(`${url}/${element.id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(element)
+    })
+    */

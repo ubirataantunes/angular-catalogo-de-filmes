@@ -1,21 +1,21 @@
-<h1 *ngIf="!isChange" mat-dialog-title>Create Element</h1>
 <h1 *ngIf="isChange" mat-dialog-title>Edit Element</h1>
+<h1 *ngIf="!isChange" mat-dialog-title>Create Element</h1>
 <div mat-dialog-content>
   <mat-form-field appearance="fill">
     <mat-label>Título</mat-label>
-    <input matInput [(ngModel)]="data.Nome">
+    <input matInput [(ngModel)]="data.nome">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Lançamento</mat-label>
-    <input matInput [(ngModel)]="data.Ano">
+    <input matInput [(ngModel)]="data.ano">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Diretor</mat-label>
-    <input matInput [(ngModel)]="data.Diretor">
+    <input matInput [(ngModel)]="data.diretor">
   </mat-form-field>
   <mat-form-field appearance="fill">
     <mat-label>Elenco</mat-label>
-    <input matInput [(ngModel)]="data.Elenco">
+    <input matInput [(ngModel)]="data.elenco">
   </mat-form-field>
 </div>
 <div mat-dialog-actions>
